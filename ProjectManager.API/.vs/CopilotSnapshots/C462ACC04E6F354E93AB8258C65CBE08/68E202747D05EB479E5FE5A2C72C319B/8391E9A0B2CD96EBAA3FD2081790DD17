@@ -1,0 +1,14 @@
+﻿using Aspire.Hosting;
+using Aspire.Hosting.ApplicationModel;
+
+public static class AppHostProgram
+{
+    public static void Main(string[] args)
+    {
+        var builder = DistributedApplication.CreateBuilder(args);
+
+        builder.AddProject<Projects.ProjectManager_API>("projectmanager-api");
+
+        builder.Build().Run();
+    }
+}

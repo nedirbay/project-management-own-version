@@ -1,0 +1,105 @@
+2025-11-21 09:24:48.768 +05:00 [INF] Starting Project Manager API...
+2025-11-21 09:24:48.798 +05:00 [INF] Environment: Development
+2025-11-21 09:24:48.798 +05:00 [INF] Swagger UI: https://localhost:7001/swagger
+2025-11-21 09:24:48.820 +05:00 [INF] User profile is available. Using 'C:\Users\HP\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-21 09:24:48.985 +05:00 [WRN] The WebRootPath was not found: D:\aspCore\front\ProjectManager.API\wwwroot. Static files may be unavailable.
+2025-11-21 09:24:49.086 +05:00 [INF] Now listening on: https://localhost:65523
+2025-11-21 09:24:49.086 +05:00 [INF] Now listening on: http://localhost:65524
+2025-11-21 09:24:49.137 +05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-21 09:24:49.138 +05:00 [INF] Hosting environment: Development
+2025-11-21 09:24:49.138 +05:00 [INF] Content root path: D:\aspCore\front\ProjectManager.API
+2025-11-21 09:25:00.276 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/ - null null
+2025-11-21 09:25:00.869 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/ - 404 null null 600.543ms
+2025-11-21 09:25:00.879 +05:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7092/, Response status code: 404
+2025-11-21 09:25:02.610 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-21 09:25:02.616 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/_framework/aspnetcore-browser-refresh.js - 200 16521 application/javascript; charset=utf-8 6.2652ms
+2025-11-21 09:25:02.647 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/_vs/browserLink - null null
+2025-11-21 09:25:02.682 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/_vs/browserLink - 200 null text/javascript; charset=UTF-8 34.6794ms
+2025-11-21 09:25:02.815 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/swagger/v1/swagger.json - null null
+2025-11-21 09:25:02.844 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 29.2846ms
+2025-11-21 09:25:47.805 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/api/DailyReports - null null
+2025-11-21 09:25:47.818 +05:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-11-21 09:25:47.826 +05:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-11-21 09:25:47.826 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/api/DailyReports - 401 0 null 21.4162ms
+2025-11-21 09:26:39.284 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/api/Dashboard - null null
+2025-11-21 09:26:39.286 +05:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-11-21 09:26:39.286 +05:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-11-21 09:26:39.286 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/api/Dashboard - 401 0 null 2.8272ms
+2025-11-21 09:26:45.734 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/health - null null
+2025-11-21 09:26:45.735 +05:00 [INF] Executing endpoint 'HTTP: GET /health'
+2025-11-21 09:26:45.753 +05:00 [INF] Setting HTTP status code 200.
+2025-11-21 09:26:45.759 +05:00 [INF] Writing value of type '<>f__AnonymousType16`2' as Json.
+2025-11-21 09:26:45.762 +05:00 [INF] Executed endpoint 'HTTP: GET /health'
+2025-11-21 09:26:45.762 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/health - 200 null application/json; charset=utf-8 28.7402ms
+2025-11-21 09:26:51.263 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/api/info - null null
+2025-11-21 09:26:51.264 +05:00 [INF] Executing endpoint 'HTTP: GET /api/info'
+2025-11-21 09:26:51.264 +05:00 [INF] Setting HTTP status code 200.
+2025-11-21 09:26:51.265 +05:00 [INF] Writing value of type '<>f__AnonymousType17`4' as Json.
+2025-11-21 09:26:51.266 +05:00 [INF] Executed endpoint 'HTTP: GET /api/info'
+2025-11-21 09:26:51.267 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/api/info - 200 null application/json; charset=utf-8 3.6802ms
+2025-11-21 09:26:56.475 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/api/Projects - null null
+2025-11-21 09:26:56.477 +05:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-11-21 09:26:56.477 +05:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-11-21 09:26:56.477 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/api/Projects - 401 0 null 1.6938ms
+2025-11-21 09:27:02.809 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7092/api/Auth/login - application/json 50
+2025-11-21 09:27:02.811 +05:00 [INF] CORS policy execution successful.
+2025-11-21 09:27:02.813 +05:00 [INF] Executing endpoint 'ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API)'
+2025-11-21 09:27:02.831 +05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ProjectManager.API.DTOs.LoginResponseDto]] Login(ProjectManager.API.DTOs.LoginDto) on controller ProjectManager.API.Controllers.AuthController (ProjectManager.API).
+2025-11-21 09:27:03.438 +05:00 [INF] Executing action method ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API) - Validation state: "Valid"
+2025-11-21 09:27:04.643 +05:00 [INF] Executed DbCommand (53ms) [Parameters=[@__username_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."Avatar", u."Bio", u."CreatedAt", u."Email", u."FullName", u."IsActive", u."PasswordHash", u."Phone", u."Role", u."UpdatedAt", u."Username"
+FROM "Users" AS u
+WHERE u."Username" = @__username_0
+LIMIT 1
+2025-11-21 09:27:05.078 +05:00 [INF] Executed action method ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1636.8371ms.
+2025-11-21 09:27:05.083 +05:00 [INF] Executing OkObjectResult, writing value of type 'ProjectManager.API.DTOs.LoginResponseDto'.
+2025-11-21 09:27:05.095 +05:00 [INF] Executed action ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API) in 2261.0279ms
+2025-11-21 09:27:05.096 +05:00 [INF] Executed endpoint 'ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API)'
+2025-11-21 09:27:05.102 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7092/api/Auth/login - 200 null application/json; charset=utf-8 2293.1524ms
+2025-11-21 09:30:14.767 +05:00 [INF] Starting Project Manager API...
+2025-11-21 09:30:14.797 +05:00 [INF] Environment: Development
+2025-11-21 09:30:14.797 +05:00 [INF] Swagger UI: https://localhost:7001/swagger
+2025-11-21 09:30:14.814 +05:00 [INF] User profile is available. Using 'C:\Users\HP\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-21 09:30:14.975 +05:00 [WRN] The WebRootPath was not found: D:\aspCore\front\ProjectManager.API\wwwroot. Static files may be unavailable.
+2025-11-21 09:30:15.068 +05:00 [INF] Now listening on: https://localhost:49366
+2025-11-21 09:30:15.068 +05:00 [INF] Now listening on: http://localhost:49367
+2025-11-21 09:30:15.110 +05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-21 09:30:15.110 +05:00 [INF] Hosting environment: Development
+2025-11-21 09:30:15.110 +05:00 [INF] Content root path: D:\aspCore\front\ProjectManager.API
+2025-11-21 10:44:06.915 +05:00 [INF] Starting Project Manager API...
+2025-11-21 10:44:06.945 +05:00 [INF] Environment: Development
+2025-11-21 10:44:06.945 +05:00 [INF] Swagger UI: https://localhost:7001/swagger
+2025-11-21 10:44:06.963 +05:00 [INF] User profile is available. Using 'C:\Users\HP\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-21 10:44:07.115 +05:00 [WRN] The WebRootPath was not found: D:\aspCore\front\ProjectManager.API\wwwroot. Static files may be unavailable.
+2025-11-21 10:44:07.207 +05:00 [INF] Now listening on: https://localhost:52626
+2025-11-21 10:44:07.208 +05:00 [INF] Now listening on: http://localhost:52627
+2025-11-21 10:44:07.246 +05:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-21 10:44:07.247 +05:00 [INF] Hosting environment: Development
+2025-11-21 10:44:07.247 +05:00 [INF] Content root path: D:\aspCore\front\ProjectManager.API
+2025-11-21 10:44:26.381 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/ - null null
+2025-11-21 10:44:26.483 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/ - 404 null null 110.0657ms
+2025-11-21 10:44:26.493 +05:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7092/, Response status code: 404
+2025-11-21 10:44:29.714 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-21 10:44:29.723 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/_framework/aspnetcore-browser-refresh.js - 200 16521 application/javascript; charset=utf-8 9.6151ms
+2025-11-21 10:44:29.755 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/_vs/browserLink - null null
+2025-11-21 10:44:29.790 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/_vs/browserLink - 200 null text/javascript; charset=UTF-8 34.6647ms
+2025-11-21 10:44:29.917 +05:00 [INF] Request starting HTTP/2 GET https://localhost:7092/swagger/v1/swagger.json - null null
+2025-11-21 10:44:29.952 +05:00 [INF] Request finished HTTP/2 GET https://localhost:7092/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 35.0279ms
+2025-11-21 10:44:39.149 +05:00 [INF] Request starting HTTP/2 POST https://localhost:7092/api/Auth/login - application/json 50
+2025-11-21 10:44:39.153 +05:00 [INF] CORS policy execution successful.
+2025-11-21 10:44:39.155 +05:00 [INF] Executing endpoint 'ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API)'
+2025-11-21 10:44:39.192 +05:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ProjectManager.API.DTOs.LoginResponseDto]] Login(ProjectManager.API.DTOs.LoginDto) on controller ProjectManager.API.Controllers.AuthController (ProjectManager.API).
+2025-11-21 10:44:39.434 +05:00 [INF] Executing action method ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API) - Validation state: "Valid"
+2025-11-21 10:44:40.570 +05:00 [INF] Executed DbCommand (51ms) [Parameters=[@__username_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."Id", u."Avatar", u."Bio", u."CreatedAt", u."Email", u."FullName", u."IsActive", u."PasswordHash", u."Phone", u."Role", u."UpdatedAt", u."Username"
+FROM "Users" AS u
+WHERE u."Username" = @__username_0
+LIMIT 1
+2025-11-21 10:44:40.964 +05:00 [INF] Executed action method ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1527.4318ms.
+2025-11-21 10:44:40.970 +05:00 [INF] Executing OkObjectResult, writing value of type 'ProjectManager.API.DTOs.LoginResponseDto'.
+2025-11-21 10:44:40.985 +05:00 [INF] Executed action ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API) in 1790.2763ms
+2025-11-21 10:44:40.986 +05:00 [INF] Executed endpoint 'ProjectManager.API.Controllers.AuthController.Login (ProjectManager.API)'
+2025-11-21 10:44:40.993 +05:00 [INF] Request finished HTTP/2 POST https://localhost:7092/api/Auth/login - 200 null application/json; charset=utf-8 1843.901ms

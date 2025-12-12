@@ -1,0 +1,262 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
+using ProjectManager.API.Data;
+using Serilog;
+using ProjectManager.API.Repositories;
+using ProjectManager.API.Repositories.Interfaces;
+using ProjectManager.API.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
+builder.WebHost.UseUrls("http://*:7001");
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+// Add services to the container.
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
+// Configure PostgreSQL Database - use connection string from configuration
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
+// Configure JWT Authentication
+var jwtSettings = builder.Configuration.GetSection("JWT");
+var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT Secret Key is not configured");
+var key = Encoding.ASCII.GetBytes(secretKey);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false; // Set to true in production
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidateAudience = true,
+        ValidAudience = jwtSettings["Audience"],
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("AdminOrWorkspaceAdmin", policy => policy.RequireRole("Admin", "WorkspaceAdmin"));
+});
+
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowVueApp", policy =>
+    {
+        policy.WithOrigins(
+                builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+                ?? new[] { "http://localhost:5173", "http://localhost:3000" }
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
+});
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Add FluentValidation
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+
+// Add Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Project Manager API",
+        Version = "v1",
+        Description = "ASP.NET Core Web API for Project Management System",
+        Contact = new OpenApiContact
+        {
+            Name = "Project Manager Team",
+            Email = "support@projectmanager.com"
+        }
+    });
+
+    // Add JWT Authentication to Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+// Add HttpContextAccessor
+builder.Services.AddHttpContextAccessor();
+
+
+// Add Repository Services
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<IDailyReportRepository, DailyReportRepository>();
+
+// Add Validators
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterDtoValidator>();
+
+// Add FluentValidation
+builder.Services.AddFluentValidationAutoValidation();
+
+
+
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Project Manager API v1");
+        c.RoutePrefix = "swagger";
+    });
+}
+
+// Global Error Handling Middleware
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "application/json";
+
+        var error = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+        if (error != null)
+        {
+            var ex = error.Error;
+            Log.Error(ex, "Unhandled exception occurred");
+
+            await context.Response.WriteAsJsonAsync(new
+            {
+                success = false,
+                error = new
+                {
+                    code = "INTERNAL_ERROR",
+                    message = app.Environment.IsDevelopment() ? ex.Message : "An internal error occurred",
+                    details = app.Environment.IsDevelopment() ? ex.StackTrace : null
+                }
+            });
+        }
+    });
+});
+
+app.UseHttpsRedirection();
+
+app.UseCors("AllowVueApp");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseStaticFiles(); // For file uploads
+
+app.MapControllers();
+
+// Health Check Endpoint
+app.MapGet("/health", () => Results.Ok(new
+{
+    status = "Healthy",
+    timestamp = DateTime.UtcNow
+}))
+.WithName("HealthCheck")
+.WithOpenApi();
+
+// API Info Endpoint
+app.MapGet("/api/info", () => Results.Ok(new
+{
+    name = "Project Manager API",
+    version = "1.0.0",
+    environment = app.Environment.EnvironmentName,
+    timestamp = DateTime.UtcNow
+}))
+.WithName("ApiInfo")
+.WithOpenApi();
+
+// Database Migration and Seeding (Development Only)
+//if (app.Environment.IsDevelopment())
+//{
+//    using (var scope = app.Services.CreateScope())
+//    {
+//        var services = scope.ServiceProvider;
+//        try
+//        {
+//            var context = services.GetRequiredService<ApplicationDbContext>();
+
+//            // Ensure database is created
+//            context.Database.EnsureCreated();
+
+//            Log.Information("Database initialized successfully");
+
+//            // Seed initial data
+//            await DbInitializer.SeedAsync(context);
+//        }
+//        catch (Exception ex)
+//        {
+//            Log.Error(ex, "An error occurred while initializing the database");
+//        }
+//    }
+//}
+
+Log.Information("Starting Project Manager API...");
+Log.Information($"Environment: {app.Environment.EnvironmentName}");
+Log.Information($"Swagger UI: {(app.Environment.IsDevelopment() ? "https://localhost:7001/swagger" : "Disabled")}");
+
+app.Run();
+
+Log.Information("Project Manager API stopped");
+Log.CloseAndFlush();
